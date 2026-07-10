@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FPGA設計・デジタル/アナログ回路設計の受託開発 | 一気通貫で対応</title>
+<meta name="description" content="FPGA設計からデジタル・アナログ回路設計まで、製造業の開発部門様の設計リソース不足を解決。要件定義から量産設計・検証まで一気通貫で対応します。まずは無料相談から。">
+<meta property="og:title" content="FPGA・デジタル・アナログ回路設計の受託開発">
+<meta property="og:description" content="製造業の開発部門様向け。FPGA設計、デジタル回路設計、アナログ回路設計を一気通貫でご支援します。">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans+JP:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "〇〇株式会社",
+  "description": "FPGA設計、デジタル回路設計、アナログ回路設計の受託開発会社",
+  "areaServed": "JP",
+  "knowsAbout": ["FPGA設計", "デジタル回路設計", "アナログ回路設計", "基板設計"]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "小ロット・試作段階でも依頼できますか？",
+      "acceptedAnswer": {"@type": "Answer", "text": "試作1台からの回路設計・基板設計に対応しています。量産化のタイミングでの設計見直しもあわせてご相談いただけます。"}
+    },
+    {
+      "@type": "Question",
+      "name": "秘密保持契約（NDA）の締結は可能ですか？",
+      "acceptedAnswer": {"@type": "Answer", "text": "ご相談の初期段階からNDAを締結した上でお打ち合わせを進めることが可能です。図面・仕様書の取り扱いも社内規定に基づき厳重に管理します。"}
+    },
+    {
+      "@type": "Question",
+      "name": "FPGAのベンダーやツールの指定はできますか？",
+      "acceptedAnswer": {"@type": "Answer", "text": "主要FPGAベンダーの開発環境に対応しております。既存資産（IPコア・過去の設計データ）を活かした開発も可能です。"}
+    },
+    {
+      "@type": "Question",
+      "name": "遠方の企業でも依頼できますか？",
+      "acceptedAnswer": {"@type": "Answer", "text": "オンライン打ち合わせを中心に、全国のお客様からのご依頼に対応しています。必要に応じて訪問での打ち合わせも承ります。"}
+    },
+    {
+      "@type": "Question",
+      "name": "見積もりだけの依頼も可能ですか？",
+      "acceptedAnswer": {"@type": "Answer", "text": "はい、見積もりのみのご依頼も歓迎します。概算仕様のご共有だけでも御見積いたします。"}
+    }
+  ]
+}
+</script>
+<style>
+  :root{
+    --ink:#16202E;
+    --paper:#EAEDEA;
+    --paper-alt:#DEE2DE;
+    --card:#F7F8F6;
+    --copper:#B8863C;
+    --copper-deep:#96692A;
+    --trace:#2F6F63;
+    --muted:#5C6672;
+    --line:#C7CCC5;
+    --white:#FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"IBM Plex Sans JP", sans-serif;
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:"Space Grotesk","IBM Plex Sans JP",sans-serif;
+    line-height:1.3;
+    margin:0;
+    letter-spacing:0.01em;
+  }
+  .mono{font-family:"IBM Plex Mono",monospace;}
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+  .eyebrow{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:13px;
+    letter-spacing:0.14em;
+    color:var(--copper-deep);
+    text-transform:uppercase;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:16px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:18px;height:1px;
+    background:var(--copper-deep);
+    display:inline-block;
+  }
+  section{position:relative;padding:96px 0;}
+  section.alt{background:var(--paper-alt);}
+  @media (max-width:720px){ section{padding:64px 0;} }
+
+  /* ===== Header ===== */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(234,237,234,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .header-inner{
+    max-width:1120px;margin:0 auto;padding:0 24px;
+    height:76px;display:flex;align-items:center;justify-content:space-between;
+  }
+  .logo{
+    font-family:"Space Grotesk",sans-serif;
+    font-weight:700;font-size:19px;letter-spacing:0.02em;
+    display:flex;align-items:center;gap:10px;
+  }
+  .logo .dot{width:8px;height:8px;background:var(--copper);border-radius:50%;}
+  .header-cta{display:flex;align-items:center;gap:20px;}
+  .tel{
+    font-family:"IBM Plex Mono",monospace;font-size:15px;
+    display:none;
+  }
+  @media (min-width:840px){ .tel{display:block;} }
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    padding:13px 26px;border-radius:2px;
+    font-weight:600;font-size:15px;
+    text-decoration:none;
+    border:1px solid transparent;
+    cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease;
+    white-space:nowrap;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn-primary{background:var(--copper);color:var(--white);}
+  .btn-primary:hover{background:var(--copper-deep);}
+  .btn-ghost{border-color:var(--ink);color:var(--ink);background:transparent;}
+  .btn-ghost:hover{background:var(--ink);color:var(--paper);}
+  .btn-sm{padding:9px 18px;font-size:13px;}
+
+  /* ===== Hero ===== */
+  .hero{padding:88px 0 40px;overflow:hidden;}
+  .hero-grid{
+    display:grid;grid-template-columns:1.1fr 0.9fr;gap:56px;align-items:center;
+  }
+  @media (max-width:900px){ .hero-grid{grid-template-columns:1fr;} }
+  .hero h1{font-size:clamp(30px,4.2vw,46px);font-weight:700;letter-spacing:-0.01em;}
+  .hero h1 .accent{color:var(--copper-deep);}
+  .hero p.lead{
+    margin-top:22px;font-size:17px;color:var(--muted);max-width:52ch;
+  }
+  .hero-actions{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap;}
+  .hero-note{
+    margin-top:20px;font-size:13px;color:var(--muted);
+    font-family:"IBM Plex Mono",monospace;
+  }
+  .trace-nodes{display:flex;gap:0;margin-top:44px;}
+  .node{
+    flex:1;border-top:2px solid var(--trace);
+    padding-top:14px;position:relative;
+  }
+  .node::before{
+    content:"";position:absolute;top:-6px;left:0;
+    width:10px;height:10px;border-radius:50%;
+    background:var(--paper);border:2px solid var(--trace);
+  }
+  .node .label{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--trace);letter-spacing:0.06em;}
+  .node .name{font-weight:600;font-size:14px;margin-top:4px;}
+
+  .hero-visual{
+    aspect-ratio:4/5;
+    background:
+      linear-gradient(180deg, rgba(22,32,46,0.08), rgba(22,32,46,0.25)),
+      repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(22,32,46,0.06) 28px),
+      repeating-linear-gradient(90deg, transparent, transparent 27px, rgba(22,32,46,0.06) 28px);
+    background-color:#D9DDD6;
+    border:1px solid var(--line);
+    border-radius:2px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:14px;text-align:center;padding:32px;
+  }
+  .img-placeholder{
+    aspect-ratio:4/5;
+    background-color:#D9DDD6;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 23px, rgba(22,32,46,0.06) 24px),
+      repeating-linear-gradient(90deg, transparent, transparent 23px, rgba(22,32,46,0.06) 24px);
+    border:1px solid var(--line);
+    border-radius:2px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:10px;text-align:center;padding:24px;
+  }
+  .img-placeholder.wide{aspect-ratio:16/10;}
+  .img-placeholder .ph-icon{font-size:26px;opacity:0.55;}
+  .img-placeholder .ph-title{font-size:12px;font-weight:600;color:var(--muted);}
+  .img-placeholder .ph-prompt{
+    font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);
+    max-width:34ch;opacity:0.85;
+  }
+
+  /* ===== Section headers ===== */
+  .sec-head{max-width:640px;margin-bottom:56px;}
+  .sec-head h2{font-size:clamp(24px,3vw,32px);font-weight:700;}
+  .sec-head p{color:var(--muted);margin-top:14px;font-size:15.5px;}
+
+  /* ===== Pain points ===== */
+  .pain-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+    background:var(--line);border:1px solid var(--line);
+  }
+  @media (max-width:900px){ .pain-grid{grid-template-columns:repeat(2,1fr);} }
+  .pain-card{background:var(--card);padding:32px 26px;}
+  .pain-card .num{font-family:"IBM Plex Mono",monospace;color:var(--copper-deep);font-size:13px;}
+  .pain-card p{margin-top:14px;font-size:15px;}
+
+  /* ===== Services (signature trace) ===== */
+  .trace-line-wrap{position:relative;}
+  .trace-svg{position:absolute;left:50%;top:0;bottom:0;width:2px;transform:translateX(-1px);z-index:0;}
+  .service-row{
+    display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;
+    padding:56px 0;position:relative;z-index:1;
+  }
+  .service-row:not(:last-child){border-bottom:1px solid var(--line);}
+  .service-row.reverse .service-text{order:2;}
+  .service-row.reverse .service-img{order:1;}
+  @media (max-width:900px){
+    .service-row{grid-template-columns:1fr;gap:28px;}
+    .service-row.reverse .service-text{order:0;}
+    .service-row.reverse .service-img{order:0;}
+  }
+  .service-tag{
+    display:inline-block;font-family:"IBM Plex Mono",monospace;
+    font-size:12px;color:var(--white);background:var(--trace);
+    padding:4px 10px;border-radius:2px;margin-bottom:16px;letter-spacing:0.05em;
+  }
+  .service-text h3{font-size:24px;font-weight:700;}
+  .service-text p{color:var(--muted);margin-top:14px;font-size:15px;}
+  .service-list{list-style:none;padding:0;margin:20px 0 0;display:grid;gap:9px;}
+  .service-list li{font-size:14.5px;padding-left:20px;position:relative;}
+  .service-list li::before{
+    content:"";position:absolute;left:0;top:9px;width:9px;height:1px;background:var(--copper-deep);
+  }
+
+  /* ===== Why chosen ===== */
+  .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+  @media (max-width:900px){ .why-grid{grid-template-columns:1fr;} }
+  .why-card{background:var(--card);border:1px solid var(--line);padding:34px 28px;}
+  .why-card .mono-num{font-family:"IBM Plex Mono",monospace;font-size:32px;color:var(--copper-deep);font-weight:500;}
+  .why-card h3{font-size:17px;margin-top:14px;font-weight:600;}
+  .why-card p{margin-top:10px;font-size:14.5px;color:var(--muted);}
+
+  /* ===== Process ===== */
+  .process-list{list-style:none;margin:0;padding:0;}
+  .process-item{
+    display:grid;grid-template-columns:64px 1fr;gap:24px;
+    padding-bottom:40px;position:relative;
+  }
+  .process-item::before{
+    content:"";position:absolute;left:31px;top:44px;bottom:0;width:2px;background:var(--trace);opacity:0.4;
+  }
+  .process-item:last-child::before{display:none;}
+  .process-item:last-child{padding-bottom:0;}
+  .p-index{
+    width:64px;height:64px;border:2px solid var(--trace);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:"IBM Plex Mono",monospace;font-size:18px;color:var(--trace);
+    background:var(--paper);
+  }
+  .p-body h3{font-size:17px;font-weight:600;}
+  .p-body p{margin-top:8px;color:var(--muted);font-size:14.5px;}
+
+  /* ===== Case studies ===== */
+  .case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  @media (max-width:900px){ .case-grid{grid-template-columns:1fr;} }
+  .case-card{background:var(--card);border:1px solid var(--line);}
+  .case-card .case-img{aspect-ratio:16/10;}
+  .case-body{padding:24px 22px;}
+  .case-body .industry{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--copper-deep);}
+  .case-body h3{font-size:16px;margin-top:8px;font-weight:600;}
+  .case-body p{font-size:14px;color:var(--muted);margin-top:10px;}
+  .case-stat{
+    margin-top:16px;padding-top:14px;border-top:1px solid var(--line);
+    font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--ink);
+  }
+
+  /* ===== FAQ ===== */
+  .faq-item{border-bottom:1px solid var(--line);padding:22px 0;}
+  .faq-q{
+    display:flex;justify-content:space-between;align-items:center;gap:16px;
+    cursor:pointer;font-weight:600;font-size:15.5px;
+  }
+  .faq-q::after{content:"+";font-family:"IBM Plex Mono",monospace;font-size:20px;color:var(--copper-deep);flex-shrink:0;}
+  .faq-item.open .faq-q::after{content:"−";}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease;}
+  .faq-item.open .faq-a{max-height:300px;}
+  .faq-a p{padding-top:12px;color:var(--muted);font-size:14.5px;}
+
+  /* ===== Company ===== */
+  .company-table{width:100%;border-collapse:collapse;font-size:14.5px;}
+  .company-table tr{border-bottom:1px solid var(--line);}
+  .company-table th{
+    text-align:left;padding:14px 20px 14px 0;color:var(--muted);
+    font-weight:500;width:160px;vertical-align:top;
+    font-family:"IBM Plex Mono",monospace;font-size:12.5px;
+  }
+  .company-table td{padding:14px 0;}
+
+  /* ===== Final CTA / Form ===== */
+  .cta-final{
+    background:var(--ink);color:var(--paper);
+  }
+  .cta-final .sec-head p{color:#AAB3BE;}
+  .cta-final .eyebrow{color:var(--copper);}
+  .form-card{
+    background:var(--card);color:var(--ink);
+    border-radius:2px;padding:40px;max-width:640px;
+  }
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
+  @media (max-width:560px){ .form-row{grid-template-columns:1fr;} }
+  .form-field{display:flex;flex-direction:column;gap:6px;}
+  .form-field.full{grid-column:1/-1;}
+  .form-field label{font-size:13px;font-weight:600;}
+  .form-field label .req{color:var(--copper-deep);font-size:11px;margin-left:4px;}
+  .form-field input, .form-field select, .form-field textarea{
+    border:1px solid var(--line);border-radius:2px;padding:11px 12px;
+    font-family:"IBM Plex Sans JP",sans-serif;font-size:14.5px;background:var(--white);
+  }
+  .form-field textarea{resize:vertical;min-height:96px;}
+  .form-security{
+    display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);
+    margin-top:18px;
+  }
+  .form-note{font-size:12px;color:var(--muted);margin-top:14px;}
+  .cta-side{display:flex;flex-direction:column;justify-content:center;gap:26px;}
+  .contact-alt{display:flex;flex-direction:column;gap:6px;}
+  .contact-alt .label{font-family:"IBM Plex Mono",monospace;font-size:12px;color:#8A93A0;}
+  .contact-alt .value{font-size:22px;font-weight:600;font-family:"Space Grotesk",sans-serif;}
+
+  footer{background:var(--ink);color:#8A93A0;padding:32px 0;font-size:13px;text-align:center;}
+  footer a{color:#C7CCD1;}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .btn:hover{transform:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo"><span class="dot"></span>〇〇株式会社 <span class="mono" style="font-size:12px;color:var(--muted);margin-left:6px;">回路設計事業部</span></div>
+    <div class="header-cta">
+      <span class="tel">TEL 03-0000-0000</span>
+      <a href="#contact" class="btn btn-primary btn-sm">無料で相談する</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">受託設計 / 製造業向け</span>
+        <h1>FPGA・デジタル・アナログ<br>回路設計を、<span class="accent">貴社の設計部門として。</span></h1>
+        <p class="lead">
+          人手が足りない、技術が属人化している、量産直前でノイズや誤動作が見つかる——
+          そんな開発現場の課題を、要件定義から量産設計・検証まで一気通貫で引き受けます。
+        </p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary">無料で相談する</a>
+          <a href="#services" class="btn btn-ghost">対応領域を見る</a>
+        </div>
+        <p class="hero-note">見積り無料 ・ NDA対応可 ・ 試作1台からご相談可</p>
+
+        <div class="trace-nodes">
+          <div class="node"><div class="label">01</div><div class="name">FPGA設計</div></div>
+          <div class="node"><div class="label">02</div><div class="name">デジタル回路設計</div></div>
+          <div class="node"><div class="label">03</div><div class="name">アナログ回路設計</div></div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="ph-icon">◫</div>
+        <div class="ph-title">AI生成画像プレースホルダー（縦長 4:5）</div>
+        <div class="ph-prompt">プロンプト例："Photorealistic engineer inspecting a populated circuit board under lab lighting, shallow depth of field, clean modern electronics lab"</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PAIN POINTS ================= -->
+  <section class="alt">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">こんなお悩みありませんか</span>
+        <h2>開発現場でよく聞くお困りごと</h2>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="pain-grid">
+        <div class="pain-card">
+          <div class="num mono">ISSUE 01</div>
+          <p>社内にFPGA設計ができる技術者がおらず、案件のたびに手が止まる</p>
+        </div>
+        <div class="pain-card">
+          <div class="num mono">ISSUE 02</div>
+          <p>アナログ設計が特定の担当者に依存していて、退職・異動のリスクが大きい</p>
+        </div>
+        <div class="pain-card">
+          <div class="num mono">ISSUE 03</div>
+          <p>量産直前になってノイズ・誤動作が発覚し、量産スケジュールが遅延する</p>
+        </div>
+        <div class="pain-card">
+          <div class="num mono">ISSUE 04</div>
+          <p>他の開発案件と並行できず、新規テーマに着手する余力がない</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SERVICES ================= -->
+  <section id="services">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">対応可能な設計領域</span>
+        <h2>FPGAからアナログまで、1社で一気通貫</h2>
+        <p>領域ごとの分業ではなく、1つの設計思想の中で3領域を横断して設計するため、インターフェース部分の不整合や後戻りが起きにくくなります。</p>
+      </div>
+    </div>
+
+    <div class="wrap trace-line-wrap">
+      <div class="service-row">
+        <div class="service-text">
+          <span class="service-tag">01 / FPGA設計</span>
+          <h3>FPGA設計</h3>
+          <p>要件定義からRTL設計、タイミング設計、実機検証までを担当します。</p>
+          <ul class="service-list">
+            <li>Verilog / VHDLによるRTL設計</li>
+            <li>タイミングクロージャ・リソース最適化</li>
+            <li>既存IPコア・過去資産を活かした開発</li>
+            <li>実機でのデバッグ・検証支援</li>
+          </ul>
+        </div>
+        <div class="service-img">
+          <div class="img-placeholder wide">
+            <div class="ph-icon">◫</div>
+            <div class="ph-title">AI生成画像（横長 16:10）</div>
+            <div class="ph-prompt">"Photorealistic close-up of an FPGA development board with oscilloscope in background, engineering desk, soft daylight"</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-row reverse">
+        <div class="service-text">
+          <span class="service-tag">02 / デジタル回路設計</span>
+          <h3>デジタル回路設計</h3>
+          <p>基板設計から信号品質・EMC対策まで、量産を見据えた設計を行います。</p>
+          <ul class="service-list">
+            <li>回路図設計・部品選定</li>
+            <li>基板パターン設計（多層基板対応）</li>
+            <li>信号品質・EMC/EMI対策</li>
+            <li>量産を前提とした設計見直し</li>
+          </ul>
+        </div>
+        <div class="service-img">
+          <div class="img-placeholder wide">
+            <div class="ph-icon">◫</div>
+            <div class="ph-title">AI生成画像（横長 16:10）</div>
+            <div class="ph-prompt">"Photorealistic multilayer PCB design review on a monitor, engineer pointing at trace layout, industrial office"</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-row">
+        <div class="service-text">
+          <span class="service-tag">03 / アナログ回路設計</span>
+          <h3>アナログ回路設計</h3>
+          <p>電源設計から高精度アナログ、ノイズ対策まで幅広く対応します。</p>
+          <ul class="service-list">
+            <li>電源回路設計（DC/DC・LDO 他）</li>
+            <li>高精度アナログ・センサインターフェース</li>
+            <li>ノイズ・ドリフト対策</li>
+            <li>試作評価・量産前の特性検証</li>
+          </ul>
+        </div>
+        <div class="service-img">
+          <div class="img-placeholder wide">
+            <div class="ph-icon">◫</div>
+            <div class="ph-title">AI生成画像（横長 16:10）</div>
+            <div class="ph-prompt">"Photorealistic engineer measuring analog circuit with multimeter and oscilloscope probes, lab bench, focused lighting"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= WHY CHOSEN ================= -->
+  <section class="alt">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">選ばれる理由</span>
+        <h2>設計を"点"ではなく"線"で引き受ける</h2>
+      </div>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="mono-num">01</div>
+          <h3>要件定義〜量産まで一貫対応</h3>
+          <p>仕様検討の段階から参画するため、後工程での手戻りを減らせます。量産移管まで責任を持って伴走します。</p>
+        </div>
+        <div class="why-card">
+          <div class="mono-num">02</div>
+          <h3>3領域を横断できる設計体制</h3>
+          <p>FPGA・デジタル・アナログを別々の担当者に依頼する必要がなく、インターフェース部分の整合性を保ったまま設計できます。</p>
+        </div>
+        <div class="why-card">
+          <div class="mono-num">03</div>
+          <h3>NDA・情報管理体制</h3>
+          <p>初期のご相談段階からNDA締結に対応。図面・仕様書は社内規定に基づき厳重に管理します。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PROCESS ================= -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">ご依頼の流れ</span>
+        <h2>ご相談から納品までの5ステップ</h2>
+      </div>
+      <ul class="process-list">
+        <li class="process-item">
+          <div class="p-index mono">01</div>
+          <div class="p-body"><h3>ヒアリング</h3><p>現状の課題、想定する仕様、スケジュールについてお伺いします。オンライン・訪問どちらでも対応可能です。</p></div>
+        </li>
+        <li class="process-item">
+          <div class="p-index mono">02</div>
+          <div class="p-body"><h3>ご提案・お見積り</h3><p>要件を踏まえた設計方針と概算費用・スケジュールをご提示します。</p></div>
+        </li>
+        <li class="process-item">
+          <div class="p-index mono">03</div>
+          <div class="p-body"><h3>設計</h3><p>回路設計・基板設計・FPGA設計を進行。節目ごとに進捗をご報告します。</p></div>
+        </li>
+        <li class="process-item">
+          <div class="p-index mono">04</div>
+          <div class="p-body"><h3>検証</h3><p>実機での動作検証、信号品質・ノイズ耐性の確認を行い、量産前の課題を洗い出します。</p></div>
+        </li>
+        <li class="process-item">
+          <div class="p-index mono">05</div>
+          <div class="p-body"><h3>納品・量産支援</h3><p>設計データ一式を納品。量産移管時の技術的なフォローも継続して行います。</p></div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= CASE STUDIES ================= -->
+  <section class="alt">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">開発実績</span>
+        <h2>業界別の設計実績（一部・匿名化）</h2>
+      </div>
+      <div class="case-grid">
+        <div class="case-card">
+          <div class="case-img img-placeholder">
+            <div class="ph-icon">◫</div>
+            <div class="ph-title">AI生成画像</div>
+            <div class="ph-prompt">"Photorealistic automotive control unit PCB on workbench"</div>
+          </div>
+          <div class="case-body">
+            <div class="industry mono">自動車部品業界</div>
+            <h3>制御ユニットのFPGA刷新</h3>
+            <p>老朽化した制御基板のFPGA設計を刷新し、量産コストを見直しました。</p>
+            <div class="case-stat">開発期間 約30%短縮（社内実績比）</div>
+          </div>
+        </div>
+        <div class="case-card">
+          <div class="case-img img-placeholder">
+            <div class="ph-icon">◫</div>
+            <div class="ph-title">AI生成画像</div>
+            <div class="ph-prompt">"Photorealistic industrial sensor board with analog components"</div>
+          </div>
+          <div class="case-body">
+            <div class="industry mono">産業機器業界</div>
+            <h3>センサ信号のノイズ対策</h3>
+            <p>アナログ段のノイズが原因だった誤検知を、回路設計の見直しで解消しました。</p>
+            <div class="case-stat">誤検知率を大幅に低減</div>
+          </div>
+        </div>
+        <div class="case-card">
+          <div class="case-img img-placeholder">
+            <div class="ph-icon">◫</div>
+            <div class="ph-title">AI生成画像</div>
+            <div class="ph-prompt">"Photorealistic medical device PCB inspection under clean lighting"</div>
+          </div>
+          <div class="case-body">
+            <div class="industry mono">医療機器業界</div>
+            <h3>高精度アナログ回路の新規開発</h3>
+            <p>微弱信号を扱う新規デバイスの回路設計を、試作から量産まで支援しました。</p>
+            <div class="case-stat">試作から量産まで一貫対応</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FAQ ================= -->
+  <section>
+    <div class="wrap" style="max-width:820px;">
+      <div class="sec-head">
+        <span class="eyebrow">よくあるご質問</span>
+        <h2>FAQ</h2>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">小ロット・試作段階でも依頼できますか？</div>
+        <div class="faq-a"><p>試作1台からの回路設計・基板設計に対応しています。量産化のタイミングでの設計見直しもあわせてご相談いただけます。</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">秘密保持契約（NDA）の締結は可能ですか？</div>
+        <div class="faq-a"><p>ご相談の初期段階からNDAを締結した上でお打ち合わせを進めることが可能です。図面・仕様書の取り扱いも社内規定に基づき厳重に管理します。</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">FPGAのベンダーやツールの指定はできますか？</div>
+        <div class="faq-a"><p>主要FPGAベンダーの開発環境に対応しております。既存資産（IPコア・過去の設計データ）を活かした開発も可能です。</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">遠方の企業でも依頼できますか？</div>
+        <div class="faq-a"><p>オンライン打ち合わせを中心に、全国のお客様からのご依頼に対応しています。必要に応じて訪問での打ち合わせも承ります。</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">見積もりだけの依頼も可能ですか？</div>
+        <div class="faq-a"><p>はい、見積もりのみのご依頼も歓迎します。概算仕様のご共有だけでも御見積いたします。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= COMPANY ================= -->
+  <section class="alt">
+    <div class="wrap" style="max-width:820px;">
+      <div class="sec-head">
+        <span class="eyebrow">会社概要</span>
+        <h2>〇〇株式会社 回路設計事業部</h2>
+      </div>
+      <table class="company-table">
+        <tr><th>設立</th><td>20XX年X月</td></tr>
+        <tr><th>所在地</th><td>〒000-0000 東京都〇〇区〇〇 0-0-0</td></tr>
+        <tr><th>対応領域</th><td>FPGA設計 / デジタル回路設計 / アナログ回路設計 / 基板設計</td></tr>
+        <tr><th>主な対応業界</th><td>自動車部品、産業機器、医療機器、計測機器 ほか</td></tr>
+        <tr><th>詳細</th><td><a href="/company/">会社概要ページを見る →</a></td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================= FINAL CTA / FORM ================= -->
+  <section class="cta-final" id="contact">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">お問い合わせ</span>
+        <h2>まずはお気軽にご相談ください</h2>
+        <p>秘密保持契約（NDA）締結のうえでのご相談も可能です。概算仕様の共有だけでもお見積りいたします。</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:48px;align-items:start;">
+        <form class="form-card" action="#" method="post">
+          <div class="form-row">
+            <div class="form-field">
+              <label>会社名<span class="req">必須</span></label>
+              <input type="text" name="company" required>
+            </div>
+            <div class="form-field">
+              <label>ご担当者名<span class="req">必須</span></label>
+              <input type="text" name="name" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>メールアドレス<span class="req">必須</span></label>
+              <input type="email" name="email" required>
+            </div>
+            <div class="form-field">
+              <label>電話番号</label>
+              <input type="tel" name="phone">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field full">
+              <label>ご相談内容<span class="req">必須</span></label>
+              <textarea name="message" required placeholder="ご検討中の設計内容、お困りごとなどをご記入ください"></textarea>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;">無料で相談する</button>
+          <div class="form-security">🔒 ご入力いただいた情報はプライバシーポリシーに基づき厳重に管理します</div>
+          <div class="form-note">※本フォームはデザインテンプレートです。WordPress設置時はContact Form 7 / WPForms等と連携してください。</div>
+        </form>
+
+        <div class="cta-side">
+          <div class="contact-alt">
+            <div class="label mono">お電話でのお問い合わせ</div>
+            <div class="value">03-0000-0000</div>
+            <div class="mono" style="font-size:12px;color:#8A93A0;">平日 9:00–18:00</div>
+          </div>
+          <div class="contact-alt">
+            <div class="label mono">対応実績</div>
+            <div class="value">自動車 / 産業機器 / 医療機器 ほか</div>
+          </div>
+          <div class="contact-alt">
+            <div class="label mono">対応可能</div>
+            <div class="value">NDA締結 / 小ロット試作 / 見積のみ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    © <span id="year"></span> 〇〇株式会社. All rights reserved. ｜ <a href="/company/">会社概要</a> ｜ <a href="/privacy/">プライバシーポリシー</a>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  document.querySelectorAll('.faq-item').forEach(function(item){
+    item.querySelector('.faq-q').addEventListener('click', function(){
+      var wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(function(el){ el.classList.remove('open'); });
+      if(!wasOpen){ item.classList.add('open'); }
+    });
+  });
+</script>
+
+</body>
+</html>
