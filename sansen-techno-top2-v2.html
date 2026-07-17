@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>サンセンテクノ | FPGA・デジタル・アナログ回路設計の受託開発</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3f7fa;            /* 冷たいライトブルーグレー（メイン下地）*/
+  --bg-alt:#e8eff6;        /* セクション切替用の少し濃い下地 */
+  --panel:#ffffff;
+  --panel-2:#fbfdfe;
+  --line:#d6e2ec;
+  --line-strong:#bfd1e0;
+  --ink:#111a2b;            /* 濃紺寄りの黒（純黒は使わない）*/
+  --sub:#57677c;
+  --muted:#7c8ba0;
+  --accent:#2e7dbf;         /* スチールブルー（メインアクセント）*/
+  --accent-deep:#1f5c8c;
+  --cyan:#16a3c8;           /* シアン（差し色）*/
+  --teal:#12a394;           /* ミント寄りのセカンダリ */
+  --font-jp:'Noto Sans JP',sans-serif;
+  --font-mono:'IBM Plex Mono',monospace;
+  --wrap:1180px;
+}
+*,*::before,*::after{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--font-jp); -webkit-font-smoothing:antialiased;
+  line-height:1.7;
+}
+img{max-width:100%; display:block;}
+a{color:inherit;}
+.wrap{max-width:var(--wrap); margin:0 auto; padding:0 24px;}
+
+/* ---------- 共通：セクション見出し ---------- */
+.eyebrow{
+  display:flex; align-items:center; gap:10px;
+  font-family:var(--font-mono); font-size:12px; letter-spacing:.18em;
+  text-transform:uppercase; margin-bottom:16px; color:var(--accent-deep);
+}
+.eyebrow .pad{width:8px;height:8px;background:var(--accent);border-radius:1px;flex:none;}
+.eyebrow .trace{height:1px;width:44px;background:var(--accent);}
+h2.sec-title{
+  font-size:clamp(24px,3vw,32px); font-weight:900; line-height:1.5;
+  margin:0 0 14px; letter-spacing:.01em; color:var(--ink);
+}
+p.sec-desc{color:var(--sub); font-size:14.5px; max-width:640px; margin:0 0 44px;}
+
+.rv{opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease;}
+.rv.in{opacity:1; transform:none;}
+@media (prefers-reduced-motion: reduce){ .rv{opacity:1; transform:none; transition:none;} }
+
+/* ================= HEADER ================= */
+header.site{
+  position:sticky; top:0; z-index:50;
+  background:rgba(243,247,250,.86); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.nav{ display:flex; align-items:center; justify-content:space-between; padding:16px 24px; max-width:var(--wrap); margin:0 auto; }
+.logo{ font-weight:900; font-size:17px; letter-spacing:.04em; display:flex; align-items:center; gap:8px; color:var(--ink);}
+.logo .pad{width:8px;height:8px;background:var(--accent);border-radius:1px;}
+.nav-links{ display:flex; gap:28px; font-size:13.5px; color:var(--sub); list-style:none; margin:0; padding:0;}
+.nav-links a{ text-decoration:none; transition:color .2s; }
+.nav-links a:hover{ color:var(--accent-deep); }
+.btn{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--font-mono); font-size:12.5px; letter-spacing:.06em;
+  padding:11px 20px; text-decoration:none; border:1px solid var(--accent);
+  color:#fff; background:var(--accent); transition:all .2s ease;
+}
+.btn:hover{ background:var(--accent-deep); border-color:var(--accent-deep); }
+.btn.ghost{ background:transparent; color:var(--ink); border-color:var(--line-strong); }
+.btn.ghost:hover{ border-color:var(--accent); color:var(--accent-deep); }
+@media (max-width:820px){ .nav-links{display:none;} }
+
+/* ================= HERO ================= */
+.hero{
+  position:relative; overflow:hidden;
+  padding:110px 24px 90px;
+  background:
+    radial-gradient(1100px 500px at 85% -10%, rgba(46,125,191,.10), transparent 60%),
+    var(--bg);
+}
+.hero::before{
+  content:""; position:absolute; inset:0; opacity:.5; pointer-events:none;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:56px 56px;
+  mask-image:linear-gradient(to bottom, black, transparent 78%);
+}
+.hero-inner{ position:relative; max-width:var(--wrap); margin:0 auto; }
+.hero h1{
+  font-size:clamp(28px,4.4vw,50px); font-weight:900; line-height:1.45;
+  margin:0 0 22px; max-width:840px; color:var(--ink);
+}
+.hero h1 .accent{ color:var(--accent); }
+.hero p.lead{
+  color:var(--sub); font-size:15.5px; max-width:620px; margin:0 0 36px; line-height:2;
+}
+.hero-ctas{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:44px; }
+.hero-note{
+  font-family:var(--font-mono); font-size:12px; color:var(--muted); letter-spacing:.03em;
+  padding-top:20px; border-top:1px solid var(--line);
+}
+.domain-chips{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1px;
+  background:var(--line); border:1px solid var(--line); margin-bottom:40px; max-width:820px;
+}
+.domain-chips div{ background:var(--panel); padding:16px 18px; }
+.domain-chips .num{ font-family:var(--font-mono); color:var(--accent); font-size:12px; display:block; margin-bottom:6px;}
+.domain-chips .label{ font-size:13px; font-weight:700; }
+
+/* ================= 技術紹介（統合セクション）================= */
+.tech{ background:var(--panel-2); padding:96px 24px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+.tech-lead{
+  display:grid; grid-template-columns:1.1fr 1fr; gap:44px; align-items:stretch; margin-bottom:56px;
+}
+.tech-photo{ position:relative; overflow:hidden; background:#dfe8ef; min-height:300px; border:1px solid var(--line); }
+.tech-photo img{ width:100%; height:100%; object-fit:cover; }
+.tech-photo .corner{ position:absolute; width:18px; height:18px; border:2px solid var(--accent); opacity:.9; }
+.tech-photo .corner.tl{ top:12px; left:12px; border-right:none; border-bottom:none; }
+.tech-photo .corner.br{ bottom:12px; right:12px; border-left:none; border-top:none; }
+.tech-copy{ display:flex; flex-direction:column; justify-content:center; gap:20px; }
+.tech-lede{
+  font-size:16.5px; font-weight:700; line-height:1.9; color:var(--ink);
+  background:var(--panel); border-left:3px solid var(--accent); padding:22px 24px;
+  box-shadow:0 2px 14px rgba(17,26,43,.05);
+}
+.tech-body{ font-size:14px; color:var(--sub); line-height:2.05; }
+
+.grid-label{ font-family:var(--font-mono); font-size:12px; letter-spacing:.1em; color:var(--muted); margin-bottom:18px; }
+.card-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+.tcard{
+  position:relative; display:block; text-decoration:none; color:inherit;
+  background:var(--panel); border:1px solid var(--line); overflow:hidden;
+  transition:border-color .25s, transform .25s, box-shadow .25s;
+}
+.tcard:hover, .tcard:focus-visible{
+  border-color:var(--accent); transform:translateY(-5px);
+  box-shadow:0 20px 34px -22px rgba(17,26,43,.25); outline:none;
+}
+.tcard-media{ position:relative; aspect-ratio:4/3; overflow:hidden; background:#dfe8ef; }
+.tcard-media img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease, filter .5s ease; filter:saturate(.85); }
+.tcard:hover .tcard-media img{ transform:scale(1.06); filter:saturate(1.05); }
+.tcard-num{ position:absolute; top:12px; left:12px; font-family:var(--font-mono); font-size:11px; color:#fff; background:rgba(17,26,43,.55); padding:3px 8px; }
+.tcard-reticle{ position:absolute; top:10px; right:10px; width:16px; height:16px; border-top:2px solid var(--accent); border-right:2px solid var(--accent); opacity:0; transition:opacity .25s; }
+.tcard:hover .tcard-reticle{ opacity:1; }
+.tcard-body{ padding:20px 22px 22px; }
+.tcard-title{ font-size:16px; font-weight:700; margin:0 0 8px; display:flex; align-items:center; justify-content:space-between; color:var(--ink); }
+.tcard-arrow{ font-family:var(--font-mono); color:var(--accent); opacity:0; transform:translateX(-4px); transition:all .25s; }
+.tcard:hover .tcard-arrow{ opacity:1; transform:none; }
+.tcard-desc{ font-size:12.5px; color:var(--sub); line-height:1.85; margin:0 0 12px; }
+.tcard-cta{ font-family:var(--font-mono); font-size:11px; color:var(--teal); letter-spacing:.06em; }
+
+@media (max-width:900px){ .tech-lead{grid-template-columns:1fr;} .card-grid{grid-template-columns:1fr;} }
+
+/* ================= こんなお悩み（課題）================= */
+.issues{ background:var(--bg-alt); padding:96px 24px; }
+.issue-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+.issue{ background:var(--panel); padding:28px 30px; }
+.issue .tag{ font-family:var(--font-mono); font-size:11.5px; color:var(--accent-deep); letter-spacing:.08em; display:block; margin-bottom:10px; }
+.issue p{ margin:0; font-size:14.5px; font-weight:500; color:var(--ink); }
+@media (max-width:700px){ .issue-grid{grid-template-columns:1fr;} }
+
+/* ================= 対応可能な設計領域（5領域）================= */
+.services{ background:var(--bg); padding:96px 24px; }
+.svc{
+  display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;
+  padding:52px 0; border-top:1px solid var(--line);
+}
+.svc:first-of-type{ border-top:none; padding-top:20px; }
+.svc:nth-of-type(even) .svc-media{ order:2; }
+.svc-tagnum{ font-family:var(--font-mono); font-size:12px; color:var(--accent); letter-spacing:.1em; margin-bottom:10px; display:block; }
+.svc h3{ font-size:21px; font-weight:900; margin:0 0 14px; color:var(--ink); }
+.svc p.desc{ color:var(--sub); font-size:14px; margin:0 0 18px; }
+.svc ul{ margin:0; padding:0; list-style:none; }
+.svc li{ font-size:13.5px; color:var(--ink); padding:9px 0 9px 20px; border-top:1px solid var(--line); position:relative; }
+.svc li:first-child{ border-top:none; }
+.svc li::before{ content:"—"; position:absolute; left:0; color:var(--accent); }
+.svc-media{ position:relative; aspect-ratio:16/10; overflow:hidden; background:#dfe8ef; border:1px solid var(--line); }
+.svc-media img{ width:100%; height:100%; object-fit:cover; }
+@media (max-width:800px){ .svc{grid-template-columns:1fr;} .svc:nth-of-type(even) .svc-media{ order:0; } }
+
+/* ================= 選ばれる理由 ================= */
+.reasons{ background:var(--panel-2); padding:96px 24px; border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+.reason-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+.reason{ padding:28px 26px; background:var(--panel); border:1px solid var(--line); }
+.reason .num{ font-family:var(--font-mono); color:var(--accent); font-size:13px; display:block; margin-bottom:14px; }
+.reason h3{ font-size:16.5px; margin:0 0 10px; color:var(--ink); }
+.reason p{ font-size:13.5px; color:var(--sub); margin:0; }
+@media (max-width:800px){ .reason-grid{grid-template-columns:1fr;} }
+
+/* ================= 流れ（タイムライン）================= */
+.flow{ background:var(--bg); padding:96px 24px; }
+.flow-list{ position:relative; margin-left:6px; padding-left:34px; border-left:1px solid var(--line-strong); }
+.flow-item{ position:relative; padding-bottom:44px; }
+.flow-item:last-child{ padding-bottom:0; }
+.flow-item::before{
+  content:""; position:absolute; left:-40px; top:2px; width:11px; height:11px;
+  background:var(--accent); border-radius:50%; box-shadow:0 0 0 4px var(--bg), 0 0 0 5px var(--line-strong);
+}
+.flow-item .num{ font-family:var(--font-mono); font-size:12px; color:var(--accent); display:block; margin-bottom:6px; }
+.flow-item h3{ font-size:17px; margin:0 0 8px; color:var(--ink); }
+.flow-item p{ font-size:13.5px; color:var(--sub); margin:0; max-width:560px; }
+
+/* ================= 実績 ================= */
+.results{ background:var(--bg-alt); padding:96px 24px; }
+.result-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+.result{ background:var(--panel); border:1px solid var(--line); overflow:hidden; }
+.result-media{ aspect-ratio:16/10; overflow:hidden; background:#dfe8ef; }
+.result-media img{ width:100%; height:100%; object-fit:cover; }
+.result-body{ padding:22px 24px; }
+.result .industry{ font-family:var(--font-mono); font-size:11px; color:var(--accent-deep); letter-spacing:.08em; display:block; margin-bottom:10px; }
+.result h3{ font-size:16px; margin:0 0 10px; color:var(--ink); }
+.result p{ font-size:13.5px; color:var(--sub); margin:0 0 14px; }
+.result .metric{ font-family:var(--font-mono); font-size:12px; color:var(--teal); border-top:1px solid var(--line); padding-top:12px; }
+@media (max-width:900px){ .result-grid{grid-template-columns:1fr;} }
+
+/* ================= FAQ ================= */
+.faq{ background:var(--panel-2); padding:96px 24px; border-top:1px solid var(--line);}
+.faq-list{ max-width:760px; }
+.faq details{ border-top:1px solid var(--line); padding:20px 0; }
+.faq details:last-child{ border-bottom:1px solid var(--line); }
+.faq summary{ cursor:pointer; list-style:none; font-size:15px; font-weight:700; display:flex; justify-content:space-between; gap:16px; color:var(--ink); }
+.faq summary::-webkit-details-marker{ display:none; }
+.faq summary::after{ content:"+"; font-family:var(--font-mono); color:var(--accent); font-size:18px; flex:none; }
+.faq details[open] summary::after{ content:"–"; }
+.faq p{ font-size:13.5px; color:var(--sub); margin:14px 0 0; max-width:640px; }
+
+/* ================= 事業内容 ================= */
+.company{ background:var(--bg); padding:96px 24px; }
+.company-table{ width:100%; border-collapse:collapse; max-width:760px; font-size:13.5px; }
+.company-table th, .company-table td{ text-align:left; padding:14px 4px; border-top:1px solid var(--line); font-weight:400; color:var(--ink); }
+.company-table th{ width:140px; color:var(--muted); font-family:var(--font-mono); font-size:11.5px; letter-spacing:.06em; }
+
+/* ================= フッター CTA ================= */
+.cta-band{
+  background:linear-gradient(135deg, var(--accent-deep), var(--cyan));
+  color:#fff; padding:64px 24px; text-align:center;
+}
+.cta-band h2{ font-size:clamp(22px,3vw,30px); margin:0 0 18px; font-weight:900; }
+.cta-band .btn{ background:#fff; border-color:#fff; color:var(--accent-deep); }
+.cta-band .btn:hover{ background:transparent; color:#fff; }
+
+footer.site-footer{ background:var(--bg); border-top:1px solid var(--line); padding:40px 24px; }
+.footer-inner{ max-width:var(--wrap); margin:0 auto; display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; font-size:12.5px; color:var(--muted); }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <nav class="nav">
+    <div class="logo"><span class="pad"></span>サンセンテクノ</div>
+    <ul class="nav-links">
+      <li><a href="#tech">技術紹介</a></li>
+      <li><a href="#services">対応領域</a></li>
+      <li><a href="#results">実績</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="/company/">事業情報</a></li>
+    </ul>
+    <a class="btn" href="/contact/">無料で相談する</a>
+  </nav>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="pad"></span><span class="trace"></span>受託設計 / 製造業向け</div>
+    <h1 class="rv">回路設計からファーム・基板まで、<br><span class="accent">貴社の設計部門</span>として。</h1>
+    <p class="lead rv">人手が足りない、技術が属人化している、量産直前でノイズや誤動作が見つかる——そんな開発現場の課題を、要件定義から量産設計・検証まで一気通貫で引き受けます。</p>
+    <div class="hero-ctas rv">
+      <a class="btn" href="/contact/">無料で相談する</a>
+      <a class="btn ghost" href="#services">対応領域を見る</a>
+    </div>
+    <div class="domain-chips rv">
+      <div><span class="num">01</span><span class="label">FPGA設計</span></div>
+      <div><span class="num">02</span><span class="label">デジタル回路設計</span></div>
+      <div><span class="num">03</span><span class="label">アナログ回路設計</span></div>
+      <div><span class="num">04</span><span class="label">アプリ・ファーム開発</span></div>
+      <div><span class="num">05</span><span class="label">基板アートワーク設計</span></div>
+    </div>
+    <div class="hero-note">見積り無料 ・ NDA対応可 ・ 試作1台からご相談可</div>
+  </div>
+</section>
+
+<!-- ================= 技術紹介（統合）================= -->
+<section class="tech" id="tech">
+  <div class="wrap">
+    <div class="tech-lead">
+      <div class="tech-photo rv">
+        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1200&auto=format&fit=crop" alt="ノートPCとコードエディタが並ぶ開発デスク">
+        <span class="corner tl"></span><span class="corner br"></span>
+      </div>
+      <div class="tech-copy rv">
+        <div class="eyebrow"><span class="pad"></span><span class="trace"></span>TECHNOLOGY</div>
+        <p class="tech-lede">組み込みシステムを中心に、設計から評価まで一貫して対応します。</p>
+        <p class="tech-body">
+          FPGA設計・ロジック設計、マイコンファームウェア開発、VBアプリケーション、基板アートワーク設計に加え、システムやボードの評価まで幅広く対応しています。IoT、ロボット、車載、半導体分野での実務経験をもとに、要求仕様から実装・検証まで現場目線での技術支援を行います。柔軟な対応力を活かし、小規模案件からスポット対応まで迅速に対応可能です。
+        </p>
+      </div>
+    </div>
+
+    <p class="grid-label rv">対応領域から選ぶ — クリックで詳細ページへ</p>
+    <div class="card-grid">
+      <a class="tcard rv" href="/tech/hardware/">
+        <div class="tcard-media">
+          <span class="tcard-num">01</span><span class="tcard-reticle"></span>
+          <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=900&auto=format&fit=crop" alt="基板をテスターで実機評価している様子">
+        </div>
+        <div class="tcard-body">
+          <p class="tcard-title">ハードウェア開発<span class="tcard-arrow">→</span></p>
+          <p class="tcard-desc">FPGA・デジタル・アナログの回路設計から、実機デバッグ・評価まで対応した事例を紹介します。</p>
+          <p class="tcard-cta">詳しく見る</p>
+        </div>
+      </a>
+      <a class="tcard rv" href="/tech/firmware/">
+        <div class="tcard-media">
+          <span class="tcard-num">02</span><span class="tcard-reticle"></span>
+          <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=900&auto=format&fit=crop" alt="ファームウェアのコードが表示されたエディタ画面">
+        </div>
+        <div class="tcard-body">
+          <p class="tcard-title">アプリ・ファーム開発<span class="tcard-arrow">→</span></p>
+          <p class="tcard-desc">マイコンファームウェアからVBアプリケーションまで、実装した機能と設計方針を紹介します。</p>
+          <p class="tcard-cta">詳しく見る</p>
+        </div>
+      </a>
+      <a class="tcard rv" href="/tech/pcb-artwork/">
+        <div class="tcard-media">
+          <span class="tcard-num">03</span><span class="tcard-reticle"></span>
+          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=900&auto=format&fit=crop" alt="実装された半導体チップとPCB基板のクローズアップ">
+        </div>
+        <div class="tcard-body">
+          <p class="tcard-title">基板アートワーク<span class="tcard-arrow">→</span></p>
+          <p class="tcard-desc">多層基板のパターン設計、信号品質・EMC対策など量産を見据えた設計事例を紹介します。</p>
+          <p class="tcard-cta">詳しく見る</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= こんなお悩みありませんか ================= -->
+<section class="issues">
+  <div class="wrap">
+    <div class="eyebrow"><span class="pad"></span><span class="trace"></span>ISSUE</div>
+    <h2 class="sec-title rv">開発現場でよく聞くお困りごと</h2>
+    <div class="issue-grid rv">
+      <div class="issue"><span class="tag">ISSUE 01</span><p>社内にFPGA設計ができる技術者がおらず、案件のたびに手が止まる</p></div>
+      <div class="issue"><span class="tag">ISSUE 02</span><p>アナログ設計が特定の担当者に依存していて、退職・異動のリスクが大きい</p></div>
+      <div class="issue"><span class="tag">ISSUE 03</span><p>量産直前になってノイズ・誤動作が発覚し、量産スケジュールが遅延する</p></div>
+      <div class="issue"><span class="tag">ISSUE 04</span><p>他の開発案件と並行できず、新規テーマに着手する余力がない</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 対応可能な設計領域（5領域）================= -->
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="eyebrow"><span class="pad"></span><span class="trace"></span>SERVICES</div>
+    <h2 class="sec-title rv">回路からファーム・基板まで、1社で一気通貫</h2>
+    <p class="sec-desc rv">領域ごとの分業ではなく、1つの設計思想の中でFPGA・回路・ファームウェア・基板を横断して設計するため、インターフェース部分の不整合や後戻りが起きにくくなります。</p>
+
+    <div class="svc rv">
+      <div class="svc-text">
+        <span class="svc-tagnum">01 / FPGA設計</span>
+        <h3>FPGA設計</h3>
+        <p class="desc">要件定義からRTL設計、タイミング設計、実機検証までを担当します。</p>
+        <ul>
+          <li>Verilog / VHDLによるRTL設計</li>
+          <li>タイミングクロージャ・リソース最適化</li>
+          <li>既存IPコア・過去資産を活かした開発</li>
+          <li>実機でのデバッグ・検証支援</li>
+        </ul>
+      </div>
+      <div class="svc-media"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=900&auto=format&fit=crop" alt="FPGA開発ボードとオシロスコープ"></div>
+    </div>
+
+    <div class="svc rv">
+      <div class="svc-text">
+        <span class="svc-tagnum">02 / デジタル回路設計</span>
+        <h3>デジタル回路設計</h3>
+        <p class="desc">回路図設計から部品選定、量産を見据えた設計見直しまで対応します。</p>
+        <ul>
+          <li>回路図設計・部品選定</li>
+          <li>信号品質・EMC/EMI対策</li>
+          <li>量産を前提とした設計見直し</li>
+          <li>既存基板の不具合解析・改版対応</li>
+        </ul>
+      </div>
+      <div class="svc-media"><img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=900&auto=format&fit=crop" alt="回路設計レビューの様子"></div>
+    </div>
+
+    <div class="svc rv">
+      <div class="svc-text">
+        <span class="svc-tagnum">03 / アナログ回路設計</span>
+        <h3>アナログ回路設計</h3>
+        <p class="desc">電源設計から高精度アナログ、ノイズ対策まで幅広く対応します。</p>
+        <ul>
+          <li>電源回路設計（DC/DC・LDO 他）</li>
+          <li>高精度アナログ・センサインターフェース</li>
+          <li>ノイズ・ドリフト対策</li>
+          <li>試作評価・量産前の特性検証</li>
+        </ul>
+      </div>
+      <div class="svc-media"><img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=900&auto=format&fit=crop" alt="マルチメータとオシロスコーププローブでアナログ回路を測定"></div>
+    </div>
+
+    <div class="svc rv">
+      <div class="svc-text">
+        <span class="svc-tagnum">04 / アプリ・ファーム開発</span>
+        <h3>アプリ・ファーム開発</h3>
+        <p class="desc">マイコンファームウェアから評価用アプリケーションまで、実機と一体で開発します。</p>
+        <ul>
+          <li>マイコンファームウェア設計・実装</li>
+          <li>VBアプリケーションによる評価・治具ツール開発</li>
+          <li>通信プロトコル実装（UART / SPI / I2C 他）</li>
+          <li>実機連携での動作検証</li>
+        </ul>
+      </div>
+      <div class="svc-media"><img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=900&auto=format&fit=crop" alt="ファームウェア開発中のコードエディタ画面"></div>
+    </div>
+
+    <div class="svc rv">
+      <div class="svc-text">
+        <span class="svc-tagnum">05 / 基板アートワーク設計</span>
+        <h3>基板アートワーク設計</h3>
+        <p class="desc">部品配置からパターン設計、製造データ作成まで、量産を見据えて仕上げます。</p>
+        <ul>
+          <li>部品配置・パターン設計（多層基板対応）</li>
+          <li>電源／GNDプレーン設計</li>
+          <li>高速信号のインピーダンス管理</li>
+          <li>ガーバー出力・製造データ作成</li>
+        </ul>
+      </div>
+      <div class="svc-media"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=900&auto=format&fit=crop" alt="多層基板のパターンとICチップのクローズアップ"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 選ばれる理由 ================= -->
+<section class="reasons">
+  <div class="wrap">
+    <div class="eyebrow"><span class="pad"></span><span class="trace"></span>WHY US</div>
+    <h2 class="sec-title rv">設計を"点"ではなく"線"で引き受ける</h2>
+    <div class="reason-grid rv">
+      <div class="reason"><span class="num">01</span><h3>要件定義〜量産まで一貫対応</h3><p>仕様検討の段階から参画するため、後工程での手戻りを減らせます。量産移管まで責任を持って伴走します。</p></div>
+      <div class="reason"><span class="num">02</span><h3>5領域を横断できる設計体制</h3><p>FPGA・デジタル・アナログ・ファーム・基板を別々の担当者に依頼する必要がなく、インターフェース部分の整合性を保ったまま設計できます。</p></div>
+      <div class="reason"><span class="num">03</span><h3>NDA・情報管理体制</h3><p>初期のご相談段階からNDA締結に対応。図面・仕様書は社内規定に基づき厳重に管理します。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ご依頼の流れ ================= -->
+<section class="flow">
+  <div class="wrap">
+    <div class="eyebrow"><span class="pad"></span><span class="trace"></span>FLOW</div>
+    <h2 class="sec-title rv">ご相談から納品までの5ステップ</h2>
+    <div class="flow-list rv">
+      <div class="flow-item"><span class="num">01</span><h3>ヒアリング</h3><p>現状の課題、想定する仕様、スケジュールについてお伺いします。オンライン・訪問どちらでも対応可能です。</p></div>
+      <div class="flow-item"><span class="num">02</span><h3>ご提案・お見積り</h3><p>要件を踏まえた設計方針と概算費用・スケジュールをご提示します。</p></div>
+      <div class="flow-item"><span class="num">03</span><h3>設計</h3><p>回路設計・基板設計・FPGA設計・ファーム開発を進行。節目ごとに進捗をご報告します。</p></div>
+      <div class="flow-item"><span class="num">04</span><h3>検証</h3><p>実機での動作検証、信号品質・ノイズ耐性の確認を行い、量産前の課題を洗い出します。</p></div>
+      <div class="flow-item"><span class="num">05</span><h3>納品・量産支援</h3><p>設計データ一式を納品。量産移管時の技術的なフォローも継続して行います。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 開発実績 ================= -->
+<section class="results" id="results">
+  <div class="wrap">
+    <div class="eyebrow"><span class="pad"></span><span class="trace"></span>RESULTS</div>
+    <h2 class="sec-title rv">業界別の設計実績（一部・匿名化）</h2>
+    <div class="result-grid rv">
+      <div class="result">
+        <div class="result-media"><img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=900&auto=format&fit=crop" alt="自動車部品の制御基板"></div>
+        <div class="result-body">
+          <span class="industry">自動車部品業界</span>
+          <h3>制御ユニットのFPGA刷新</h3>
+          <p>老朽化した制御基板のFPGA設計を刷新し、量産コストを見直しました。</p>
+          <div class="metric">開発期間 約30%短縮（社内実績比）</div>
+        </div>
+      </div>
+      <div class="result">
+        <div class="result-media"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=900&auto=format&fit=crop" alt="産業機器のセンサ基板"></div>
+        <div class="result-body">
+          <span class="industry">産業機器業界</span>
+          <h3>センサ信号のノイズ対策</h3>
+          <p>アナログ段のノイズが原因だった誤検知を、回路設計の見直しで解消しました。</p>
+          <div class="metric">誤検知率を大幅に低減</div>
+        </div>
+      </div>
+      <div class="result">
+        <div class="result-media"><img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=900&auto=format&fit=crop" alt="医療機器の基板検査"></div>
+        <div class="result-body">
+          <span class="industry">医療機器業界</span>
+          <h3>高精度アナログ回路の新規開発</h3>
+          <p>微弱信号を扱う新規デバイスの回路設計を、試作から量産まで支援しました。</p>
+          <div class="metric">試作から量産まで一貫対応</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div class="eyebrow"><span class="pad"></span><span class="trace"></span>FAQ</div>
+    <h2 class="sec-title rv">よくあるご質問</h2>
+    <div class="faq-list rv">
+      <details><summary>小ロット・試作段階でも依頼できますか？</summary><p>試作1台からの回路設計・基板設計に対応しています。量産化のタイミングでの設計見直しもあわせてご相談いただけます。</p></details>
+      <details><summary>秘密保持契約（NDA）の締結は可能ですか？</summary><p>ご相談の初期段階からNDAを締結した上でお打ち合わせを進めることが可能です。図面・仕様書の取り扱いも社内規定に基づき厳重に管理します。</p></details>
+      <details><summary>FPGAのベンダーやツールの指定はできますか？</summary><p>主要FPGAベンダーの開発環境に対応しております。既存資産（IPコア・過去の設計データ）を活かした開発も可能です。</p></details>
+      <details><summary>遠方の企業でも依頼できますか？</summary><p>オンライン打ち合わせを中心に、全国のお客様からのご依頼に対応しています。必要に応じて訪問での打ち合わせも承ります。</p></details>
+      <details><summary>見積もりだけの依頼も可能ですか？</summary><p>はい、見積もりのみのご依頼も歓迎します。概算仕様のご共有だけでも御見積いたします。</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 事業内容 ================= -->
+<section class="company">
+  <div class="wrap">
+    <div class="eyebrow"><span class="pad"></span><span class="trace"></span>COMPANY</div>
+    <h2 class="sec-title rv">サンセンテクノ</h2>
+    <table class="company-table rv">
+      <tr><th>設立</th><td>2019年10月</td></tr>
+      <tr><th>所在地</th><td>愛知県名古屋市西区名駅２－３４－１７</td></tr>
+      <tr><th>対応領域</th><td>FPGA設計 / デジタル回路設計 / アナログ回路設計 / アプリ・ファーム開発 / 基板アートワーク設計</td></tr>
+      <tr><th>主な対応業界</th><td>自動車部品、産業機器、医療機器、計測機器 ほか</td></tr>
+      <tr><th>詳細</th><td><a href="/company/" style="color:var(--accent-deep); text-decoration:none;">会社概要ページを見る →</a></td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ================= CTA band ================= -->
+<section class="cta-band">
+  <h2>まずは無料相談から、お気軽にご連絡ください。</h2>
+  <a class="btn" href="/contact/">無料で相談する</a>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>© サンセンテクノ. All rights reserved.</div>
+    <div><a href="/company/">会社概要</a> ｜ <a href="/privacy/">プライバシーポリシー</a></div>
+  </div>
+</footer>
+
+<script>
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const els = document.querySelectorAll('.rv');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    els.forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.rv').forEach(el => el.classList.add('in'));
+  }
+</script>
+
+</body>
+</html>
