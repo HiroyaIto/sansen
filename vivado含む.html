@@ -1,0 +1,119 @@
+<style>
+.hw-works-real{--ink:#152733;--muted:#71828c;--line:#dce5e9;--soft:#f5f8f9;--accent:#00a6a6;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP","Yu Gothic",Meiryo,sans-serif;color:var(--ink);background:#fff;overflow:hidden}
+.hw-works-real *{box-sizing:border-box}
+.hw-real-head{padding:72px 6vw 58px;border-bottom:1px solid var(--line)}
+.hw-real-inner{max-width:1160px;margin:auto}
+.hw-real-eyebrow{color:var(--accent);font-size:12px;letter-spacing:.18em;font-weight:700;margin-bottom:18px}
+.hw-real-head h1{font-size:clamp(32px,5vw,60px);line-height:1.25;margin:0 0 22px;letter-spacing:.03em}
+.hw-real-head p{max-width:720px;color:var(--muted);font-size:17px;line-height:2;margin:0}
+.hw-real-works{padding:85px 6vw}
+.hw-real-intro{display:flex;justify-content:space-between;align-items:end;gap:40px;margin-bottom:48px}
+.hw-real-intro h2{font-size:clamp(27px,4vw,42px);margin:0;line-height:1.35}
+.hw-real-intro p{color:var(--muted);margin:0;max-width:430px;line-height:1.9}
+.hw-real-case{border-top:1px solid var(--line);padding:62px 0 70px}
+.hw-real-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:70px;align-items:center}
+.hw-real-case:nth-child(even) .hw-real-grid{grid-template-columns:.88fr 1.12fr}
+.hw-real-case:nth-child(even) .hw-real-visual{order:2}
+.hw-real-case:nth-child(even) .hw-real-copy{order:1}
+.hw-real-no{color:var(--accent);font-size:12px;font-weight:700;letter-spacing:.15em;margin-bottom:16px}
+.hw-real-case h3{font-size:clamp(25px,3vw,38px);line-height:1.4;margin:0 0 20px}
+.hw-real-lead{font-size:17px;line-height:2;margin:0 0 24px}
+.hw-real-detail{color:var(--muted);font-size:14px;line-height:1.9;margin:0 0 25px}
+.hw-real-tools{display:flex;flex-wrap:wrap;gap:8px}
+.hw-real-tool{border:1px solid #c9d8de;padding:7px 12px;font-size:12px;letter-spacing:.04em;background:#fff}
+.hw-real-shot{background:#fff;border:1px solid #cbd7db;box-shadow:0 18px 45px rgba(14,45,62,.16);overflow:hidden}
+.hw-real-shot img{display:block;width:100%;height:auto}
+.hw-real-caption{font-size:11px;color:#7a8b93;padding:10px 12px;background:#fafcfc;border-top:1px solid #e2e8ea}
+.hw-real-bottom{background:var(--soft);padding:80px 6vw;text-align:center}
+.hw-real-bottom h2{font-size:clamp(26px,4vw,40px);margin:0 0 16px}
+.hw-real-bottom p{color:var(--muted);line-height:1.9;margin:0 auto 28px;max-width:650px}
+.hw-real-btn{display:inline-block;background:#0b2435;color:#fff!important;text-decoration:none;padding:14px 30px;font-size:14px}
+@media(max-width:850px){.hw-real-grid,.hw-real-case:nth-child(even) .hw-real-grid{grid-template-columns:1fr;gap:35px}.hw-real-case:nth-child(even) .hw-real-visual{order:1}.hw-real-case:nth-child(even) .hw-real-copy{order:2}.hw-real-intro{display:block}.hw-real-intro p{margin-top:18px}}
+@media(max-width:550px){.hw-real-head,.hw-real-works,.hw-real-bottom{padding-left:22px;padding-right:22px}}
+</style>
+
+<div class="hw-works-real">
+<section class="hw-real-head">
+<div class="hw-real-inner">
+<div class="hw-real-eyebrow">WORKS / HARDWARE DEVELOPMENT</div>
+<h1>設計事例</h1>
+<p>実際の開発では、どのようなツールを使い、どのように設計を進めているのか。<br>FPGA、組込み、回路設計における開発環境と設計プロセスを紹介します。</p>
+</div>
+</section>
+
+<section class="hw-real-works">
+<div class="hw-real-inner">
+<div class="hw-real-intro">
+<h2>DESIGN<br>APPROACH</h2>
+<p>ツールを使うことが目的ではありません。<br>設計対象に合わせてツールを使い分け、検証しながら設計を進めています。</p>
+</div>
+
+<article class="hw-real-case">
+<div class="hw-real-grid">
+<div class="hw-real-visual">
+<div class="hw-real-shot"><img src="https://sansen-techno.com/wp-content/uploads/2026/07/vivado.png" alt="Vivado design environment image"><div class="hw-real-caption">Vivado / Block Design・IP Integrator</div></div>
+</div>
+<div class="hw-real-copy">
+<div class="hw-real-no">CASE 01 / FPGA</div>
+<h3>FPGAシステム設計</h3>
+<p class="hw-real-lead">ブロック構成を整理し、RTL・IP・プロセッサを組み合わせてシステムを設計。</p>
+<p class="hw-real-detail">Vivado上で設計構成を確認しながら、論理設計・合成・実装へ進めます。必要に応じてRTLの構成やデータフローを見直し、実機での動作確認まで行います。</p>
+<div class="hw-real-tools"><span class="hw-real-tool">AMD Vivado</span><span class="hw-real-tool">RTL</span><span class="hw-real-tool">FPGA</span></div>
+</div>
+</div>
+</article>
+
+<article class="hw-real-case">
+<div class="hw-real-grid">
+<div class="hw-real-visual">
+<div class="hw-real-shot"><img src="https://sansen-techno.com/wp-content/uploads/2026/07/vitis.png" alt="Vitis Unified IDE image"><div class="hw-real-caption">Vitis Unified IDE / Embedded Application</div></div>
+</div>
+<div class="hw-real-copy">
+<div class="hw-real-no">CASE 02 / EMBEDDED</div>
+<h3>FPGAとソフトウェアをつなぐ</h3>
+<p class="hw-real-lead">ハードウェアから受け取ったデータを、ソフトウェア側で処理・制御。</p>
+<p class="hw-real-detail">Vitisを使用した組込みソフトウェア開発。通信やデータ処理の流れを確認しながら、FPGA側の設計と合わせてシステムを構築します。</p>
+<div class="hw-real-tools"><span class="hw-real-tool">AMD Vitis</span><span class="hw-real-tool">C / C++</span><span class="hw-real-tool">UART</span></div>
+</div>
+</div>
+</article>
+
+<article class="hw-real-case">
+<div class="hw-real-grid">
+<div class="hw-real-visual">
+<div class="hw-real-shot"><img src="https://sansen-techno.com/wp-content/uploads/2026/07/kicad-all.png" alt="KiCad schematic editor image"><div class="hw-real-caption">KiCad / Schematic Editor</div></div>
+</div>
+<div class="hw-real-copy">
+<div class="hw-real-no">CASE 03 / CIRCUIT</div>
+<h3>回路を設計し、基板へ落とし込む</h3>
+<p class="hw-real-lead">回路構成を整理し、回路図から基板設計へつなげます。</p>
+<p class="hw-real-detail">KiCadを用いた回路図・基板設計。信号の流れや電源構成を確認しながら、実装を意識した設計を進めます。</p>
+<div class="hw-real-tools"><span class="hw-real-tool">KiCad</span><span class="hw-real-tool">Schematic</span><span class="hw-real-tool">PCB</span></div>
+</div>
+</div>
+</article>
+
+<article class="hw-real-case">
+<div class="hw-real-grid">
+<div class="hw-real-visual">
+<div class="hw-real-shot"><img src="https://sansen-techno.com/wp-content/uploads/2026/07/ltspice.png" alt="LTspice waveform analysis image"><div class="hw-real-caption">LTspice / Transient Analysis</div></div>
+</div>
+<div class="hw-real-copy">
+<div class="hw-real-no">CASE 04 / ANALOG</div>
+<h3>シミュレーションで回路を確認する</h3>
+<p class="hw-real-lead">回路の動きを波形で確認し、実機評価へつなげます。</p>
+<p class="hw-real-detail">LTspiceを用いて過渡解析や各種シミュレーションを実施。設計段階で回路の挙動を確認し、実測結果との比較を行いながら設計を詰めます。</p>
+<div class="hw-real-tools"><span class="hw-real-tool">LTspice</span><span class="hw-real-tool">SPICE</span><span class="hw-real-tool">Waveform</span></div>
+</div>
+</div>
+</article>
+
+</div>
+</section>
+
+<section class="hw-real-bottom">
+<h2>DESIGN / VERIFY / DEBUG</h2>
+<p>使用するツールと設計対象に合わせ、開発を進めています。</p>
+<a href="/contact/" class="hw-real-btn">お問い合わせ</a>
+</section>
+</div>
